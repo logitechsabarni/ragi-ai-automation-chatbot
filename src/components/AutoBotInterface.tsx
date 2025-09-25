@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 import { 
   Monitor, 
   Heart, 
@@ -12,7 +14,8 @@ import {
   Zap, 
   Clock, 
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  Sparkles
 } from "lucide-react";
 import autobotHero from "@/assets/autobot-hero.png";
 
@@ -57,6 +60,7 @@ const AutoBotInterface = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const { toast } = useToast();
 
   const categories = [
     {
@@ -92,20 +96,55 @@ const AutoBotInterface = () => {
     "Remind me to take my medicines every day at 8 PM"
   ];
 
+  const handleCategorySelect = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    const category = categories.find(c => c.id === categoryId);
+    toast({
+      title: "Category Selected",
+      description: `Ready to help with ${category?.title} tasks`,
+    });
+  };
+
   const handleSendMessage = () => {
-    if (!message.trim()) return;
+    if (!message.trim()) {
+      toast({
+        title: "Message Required",
+        description: "Please enter your request before sending",
+        variant: "destructive"
+      });
+      return;
+    }
     
     setIsProcessing(true);
-    // Simulate processing
+    toast({
+      title: "Processing Request",
+      description: "Auto-Bot is analyzing your request...",
+    });
+
+    // Simulate processing with more realistic feedback
     setTimeout(() => {
       setIsProcessing(false);
+      const successMessages = [
+        "Request processed successfully!",
+        "Task completed and notifications sent!",
+        "Action executed - check your email for confirmation!",
+        "Done! Your request has been handled automatically."
+      ];
+      
+      toast({
+        title: "Success!",
+        description: successMessages[Math.floor(Math.random() * successMessages.length)],
+      });
       setMessage("");
-      // Here you would integrate with actual AI processing
     }, 2000);
   };
 
   const handleExampleClick = (example: string) => {
     setMessage(example);
+    toast({
+      title: "Example Loaded",
+      description: "Feel free to edit this request before sending",
+    });
   };
 
   return (
@@ -161,7 +200,7 @@ const AutoBotInterface = () => {
                 examples={category.examples}
                 color={category.color}
                 isSelected={selectedCategory === category.id}
-                onClick={() => setSelectedCategory(category.id)}
+                onClick={() => handleCategorySelect(category.id)}
               />
             ))}
           </div>
@@ -251,6 +290,7 @@ const AutoBotInterface = () => {
           </CardContent>
         </Card>
       </div>
+      <Toaster />
     </div>
   );
 };

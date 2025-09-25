@@ -57,6 +57,28 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        autobot: {
+          blue: "hsl(var(--autobot-blue))",
+          purple: "hsl(var(--autobot-purple))",
+        },
+        category: {
+          it: "hsl(var(--it-color))",
+          healthcare: "hsl(var(--healthcare-color))",
+          workflow: "hsl(var(--workflow-color))",
+        },
+      },
+      backgroundImage: {
+        'autobot-gradient': 'var(--autobot-gradient)',
+        'autobot-gradient-subtle': 'var(--autobot-gradient-subtle)',
+      },
+      boxShadow: {
+        'soft': 'var(--shadow-soft)',
+        'medium': 'var(--shadow-medium)',
+        'strong': 'var(--shadow-strong)',
+      },
+      transitionTimingFunction: {
+        'smooth': 'var(--transition-smooth)',
+        'spring': 'var(--transition-spring)',
       },
       borderRadius: {
         lg: "var(--radius)",
